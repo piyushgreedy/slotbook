@@ -1,0 +1,25 @@
+﻿<Properties StartupConfiguration="{AF154C11-9021-4988-B0CD-83F0DDE6F2E5}|Default">
+  <MonoDevelop.Ide.ItemProperties.Slotly PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Slotly/Controllers/HomeController.cs">
+    <Files>
+      <File FileName="Slotly/Views/Shared/_Layout.cshtml" Line="5" Column="37" />
+      <File FileName="Slotly/Views/Home/Login.cshtml" />
+      <File FileName="Slotly/Views/Shared/_CookieConsentPartial.cshtml" />
+      <File FileName="Slotly/Controllers/HomeController.cs" Line="23" Column="1" />
+      <File FileName="Slotly/Startup.cs" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="Slotly" selected="True" />
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>
