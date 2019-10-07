@@ -10,19 +10,19 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-// var con = mysql.createConnection({
-//   host: "localhost",
-//   user: "root",
-//   password: "password",
-//   database: "sys"
-// });
-
 var con = mysql.createConnection({
   host: "localhost",
   user: "root",
-  password: "rohini@26",
+  password: "password",
   database: "sys"
 });
+
+// var con = mysql.createConnection({
+//   host: "localhost",
+//   user: "root",
+//   password: "rohini@26",
+//   database: "sys"
+// });
 
 con.connect(function(err) {
   console.log("as");
@@ -59,10 +59,7 @@ app.get('/userSignUp', (req, res) => {
       var sqlQuery = 'INSERT INTO slot_login (`username`,`password`) VALUES ("'+username.toString()+'","'+password.toString()+'")'
       console.log(sqlQuery)
       con.query(sqlQuery, function (err, result, fields) {
-        if (err){
-          console.log(err);
-          throw err;
-        }
+        if (err) throw err;
         res.setHeader('Content-Type', 'application/json');
         res.end(JSON.stringify({ a: "Sign Up Done Successfully", statusCode:200}));
       });

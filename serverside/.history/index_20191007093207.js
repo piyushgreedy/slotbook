@@ -10,19 +10,19 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-// var con = mysql.createConnection({
-//   host: "localhost",
-//   user: "root",
-//   password: "password",
-//   database: "sys"
-// });
-
 var con = mysql.createConnection({
   host: "localhost",
   user: "root",
-  password: "rohini@26",
+  password: "password",
   database: "sys"
 });
+
+// var con = mysql.createConnection({
+//   host: "localhost",
+//   user: "root",
+//   password: "rohini@26",
+//   database: "sys"
+// });
 
 con.connect(function(err) {
   console.log("as");
