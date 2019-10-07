@@ -251,7 +251,7 @@ class Scheduler extends Component {
                                   <Form.Label>PC-1</Form.Label>
                                 </div>
                                 <div>
-                                <a target="_blank" href="./rdp.bat" target="_blank">Remote Connection</a>
+                                <a target="_blank" href="./rdp.sh" target="_blank">Remote Connection</a>
                                 </div>
                                 </Col>
                               <Col lg={4}>
@@ -288,7 +288,7 @@ class Scheduler extends Component {
                                  <div>
                                   <Form.Label>PC-4</Form.Label>
                                 </div>
-                                <a target="_blank" href="./rdp.bat" target="_blank">Remote Connection</a>
+                                <a target="_blank" href="./rdp.sh" target="_blank">Remote Connection</a>
                                 </Col>
                               <Col lg={4}>
                                 <Switch
@@ -299,7 +299,7 @@ class Scheduler extends Component {
                                  <div>
                                   <Form.Label>PC-5</Form.Label>
                                 </div>
-                                <a target="_blank" href="./rdp.bat" target="_blank">Remote Connection</a>
+                                <a target="_blank" href="./rdp.sh" target="_blank">Remote Connection</a>
                               </Col>
                               <Col lg={4}>
                                 <Switch
