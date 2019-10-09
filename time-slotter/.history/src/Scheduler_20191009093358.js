@@ -100,7 +100,6 @@ class Scheduler extends Component {
 
   updateSlotBookingPC= async(currentDate, currentPC)=>{
       // load resource and event data
-      debugger
       var splitArr;
       var splitDataDate=currentDate.split("/")
       var splitDay=splitDataDate[0];
@@ -326,7 +325,7 @@ class Scheduler extends Component {
                             <Row>
                               <Col lg={4}>
                                 <Switch
-                                  checked={this.state.check1}
+                    
                                   id="normal-switch1"
                                 ></Switch>
                                 <div>
@@ -439,9 +438,7 @@ class Scheduler extends Component {
                 var evt1 = evt2.join(" ");
                 this.currentSelectedDate=this.convertDate(evt1)
                 await this.getBookedTimeSlot(this.currentSelectedDate,this.state.currentPCSelected);
-                for(var i=1; i<=6; i++){
-                  await this.updateSlotBookingPC(this.currentSelectedDate,"PC-"+i)
-                }
+                await this.updateSlotBookingPC(this.currentSelectedDate, this.state.currentPCSelected);
                 console.log(this.currentSelectedDate);
               }}
             />

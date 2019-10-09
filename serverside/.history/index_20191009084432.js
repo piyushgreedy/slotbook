@@ -102,9 +102,9 @@ app.get('/getTimeBooked', (req, res) => {
         if (err) throw err;
         console.log(result.length);
         if(result.length>0){
+          console.log(result.length);
           var timeBooked="";
           for(var i=0;i<result.length;i++){
-            console.log(result[i]["timebooked"]);
             if(i!=result.length-1)
               timeBooked=timeBooked+result[i]["timebooked"]+',';
             else

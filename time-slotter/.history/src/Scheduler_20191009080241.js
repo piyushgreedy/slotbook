@@ -10,7 +10,6 @@ import InfiniteCalendar from 'react-infinite-calendar';
 import 'react-infinite-calendar/styles.css';
 import Switch from "react-switch";
 import Terminal from 'terminal-in-react';
-import { async } from 'q';
 var shell = require('shelljs');
 
 class Scheduler extends Component {
@@ -21,12 +20,6 @@ class Scheduler extends Component {
     this.finalBookedArray=[];
     var ref=this;
     this.state = {
-      check1:false,
-      check2:false,
-      check3:false,
-      check4:false,
-      check5:false,
-      check6:false,
       checked:true,
       currentPCSelected :undefined,
       cellWidthSpec: "Fixed",
@@ -98,74 +91,6 @@ class Scheduler extends Component {
     };
   }
 
-  updateSlotBookingPC= async(currentDate, currentPC)=>{
-      // load resource and event data
-      debugger
-      var splitArr;
-      var splitDataDate=currentDate.split("/")
-      var splitDay=splitDataDate[0];
-      var splitMonth=splitDataDate[1];
-      var splitYear=splitDataDate[2];
-      var splitDate=splitYear+"-"+splitMonth+"-"+splitDay;
-      let isAvailable=true;
-      await axios.get("http://localhost:3000/getTimeBooked?bookids="+currentDate+":::"+currentPC)
-      .then((response) => {
-          debugger
-          console.log(response.data);
-          splitArr = response.data.a.split(',');
-          //this.initialBookedTime=splitArr;
-          console.log(splitArr);
-          var currentSlot=(new Date()).getHours();
-          if(currentSlot<10){
-            currentSlot="0"+currentSlot;
-          }
-          debugger
-          var findSlot=splitArr.find((elem)=>{
-            if(elem===currentSlot)
-              return true;
-          })
-          if(findSlot){
-            isAvailable=false;
-          }
-      },(error)=>{
-        isAvailable=true;
-        console.log(error);
-      });
-
-      switch(currentPC){
-        case "PC-1":
-          this.setState({
-            check1:isAvailable
-          })
-          break;
-        case "PC-2":
-          this.setState({
-            check2:isAvailable
-          })
-          break;
-        case "PC-3":
-          this.setState({
-            check3:isAvailable
-          })
-          break;
-        case "PC-4":
-          this.setState({
-            check4:isAvailable
-          })
-          break;
-        case "PC-5":
-          this.setState({
-            check5:isAvailable
-          })
-          break;
-        case "PC-6":
-          this.setState({
-            check6:isAvailable
-          })
-          break;
-      }
-    }
-
 
   getBookedTimeSlot=(currentDate,currentPC)=>{
      // load resource and event data
@@ -178,7 +103,7 @@ class Scheduler extends Component {
     var splitYear=splitDataDate[2];
     var splitDate=splitYear+"-"+splitMonth+"-"+splitDay;
   
-    axios.get("http://localhost:3000/getTimeBooked?bookids="+currentDate+":::"+currentPC)
+    axios.get("http://localhost:3000/getTimeBooked?bookids="+currentDate+":::"+currentPC+":::1")
     .then((response) => {
         debugger
         console.log(response.data);
@@ -206,9 +131,6 @@ class Scheduler extends Component {
     },(error)=>{
       console.log(error);
       that.setState({
-        currentPCSelected: currentPC
-      });
-      that.setState({
         resources: [
         {name: "Resource A", id: "A"}
         ],
@@ -228,11 +150,6 @@ class Scheduler extends Component {
     this.currentPCSelected="#PC-1"
     
     await this.getBookedTimeSlot(this.convertDate(evt1),"PC-1")
-
-    for(var i=1; i<=6; i++){
-      await this.updateSlotBookingPC(this.convertDate(evt1),"PC-"+i)
-    }
-
     // this.setState({
     //   resources: [
     //     {name: "Resource A", id: "A"}
@@ -326,7 +243,8 @@ class Scheduler extends Component {
                             <Row>
                               <Col lg={4}>
                                 <Switch
-                                  checked={this.state.check1}
+                                  onChange={()=>{}}
+                                  checked={this.state.checked}
                                   id="normal-switch1"
                                 ></Switch>
                                 <div>
@@ -339,7 +257,7 @@ class Scheduler extends Component {
                               <Col lg={4}>
                                 <Switch
                                   onChange={()=>{}}
-                                  checked={this.state.check2}
+                                  checked={false}
                                   id="normal-switch2"
                                 ></Switch>
                                  <div>
@@ -350,7 +268,7 @@ class Scheduler extends Component {
                               <Col lg={4}>
                                 <Switch
                                   onChange={()=>{}}
-                                  checked={this.state.check3}
+                                  checked={false}
                                   id="normal-switch3"
                                 ></Switch>
                                  <div>
@@ -364,7 +282,7 @@ class Scheduler extends Component {
                               <Col lg={4}>
                                 <Switch
                                   onChange={()=>{}}
-                                  checked={this.state.check4}
+                                  checked={false}
                                   id="normal-switch4"
                                 ></Switch>
                                  <div>
@@ -375,7 +293,7 @@ class Scheduler extends Component {
                               <Col lg={4}>
                                 <Switch
                                   onChange={()=>{}}
-                                  checked={this.state.check5}
+                                  checked={false}
                                   id="normal-switch5"
                                 ></Switch>
                                  <div>
@@ -386,7 +304,7 @@ class Scheduler extends Component {
                               <Col lg={4}>
                                 <Switch
                                   onChange={()=>{}}
-                                  checked={this.state.check6}
+                                  checked={false}
                                   id="normal-switch6"
                                 ></Switch>
                                 <div>
@@ -408,12 +326,10 @@ class Scheduler extends Component {
                   </Row>
                 </Tab.Container>
                 <Container style={{marginTop:"80px"}}>
-                  <DropdownButton id="dropdown-basic-button" variant="success" onSelect={async(evt)=>{
+                  <DropdownButton id="dropdown-basic-button" variant="success" onSelect={(evt)=>{
                     this.currentPCSelected=evt;
                     console.log(this.currentPCSelected);
-                    debugger
-                    await this.getBookedTimeSlot(this.currentSelectedDate,evt.substr(1))
-
+                    await this.getBookedTimeSlot(this.convertDate(evt1),"PC-1")
                   }} title="Select Computer Category">
                     <Dropdown.Item href="#PC-1">PC-1</Dropdown.Item>
                     <Dropdown.Item href="#PC-2">PC-2</Dropdown.Item>
@@ -430,18 +346,14 @@ class Scheduler extends Component {
               }}
               width={350}
               height={250}
-              // selected={today}
+              selected={today}
               // disabledDays={[0,6]}
               // minDate={lastWeek}
-              onSelect={async(evt)=>{
+              onSelect={(evt)=>{
                 var evt2 = evt.toString().split(" ");
                 evt2.splice(4)
                 var evt1 = evt2.join(" ");
                 this.currentSelectedDate=this.convertDate(evt1)
-                await this.getBookedTimeSlot(this.currentSelectedDate,this.state.currentPCSelected);
-                for(var i=1; i<=6; i++){
-                  await this.updateSlotBookingPC(this.currentSelectedDate,"PC-"+i)
-                }
                 console.log(this.currentSelectedDate);
               }}
             />

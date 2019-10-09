@@ -440,7 +440,7 @@ class Scheduler extends Component {
                 this.currentSelectedDate=this.convertDate(evt1)
                 await this.getBookedTimeSlot(this.currentSelectedDate,this.state.currentPCSelected);
                 for(var i=1; i<=6; i++){
-                  await this.updateSlotBookingPC(this.currentSelectedDate,"PC-"+i)
+                  await this.updateSlotBookingPC(this.convertDate(evt1),"PC-"+i)
                 }
                 console.log(this.currentSelectedDate);
               }}

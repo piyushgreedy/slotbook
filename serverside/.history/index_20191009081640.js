@@ -76,15 +76,13 @@ app.get('/getUsage', (req, res) => {
   var pcName=totalObj[0];
   var cDate=totalObj[1];
   var selectQuery="SELECT * FROM slot_booking where `datebooked`='"+cDate+"' AND `pcbooked`='"+pcName+"'";
+  
   console.log(selectQuery)
+
   con.query(selectQuery, function (err, result, fields) {
     if (err) throw err;
     res.setHeader('Content-Type', 'application/json');
-    if(result.length>0){
-      res.end(JSON.stringify({ inUse: true, statusCode:200}));
-    }else{
-      res.end(JSON.stringify({ inUse: true, statusCode:200}));
-    }
+    res.end(JSON.stringify({ inUse: true, statusCode:200}));
   });
 })
 
@@ -104,7 +102,6 @@ app.get('/getTimeBooked', (req, res) => {
         if(result.length>0){
           var timeBooked="";
           for(var i=0;i<result.length;i++){
-            console.log(result[i]["timebooked"]);
             if(i!=result.length-1)
               timeBooked=timeBooked+result[i]["timebooked"]+',';
             else

@@ -104,7 +104,7 @@ app.get('/getTimeBooked', (req, res) => {
         if(result.length>0){
           var timeBooked="";
           for(var i=0;i<result.length;i++){
-            console.log(result[i]["timebooked"]);
+            console.log(result.length);
             if(i!=result.length-1)
               timeBooked=timeBooked+result[i]["timebooked"]+',';
             else

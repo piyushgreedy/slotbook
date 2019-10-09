@@ -98,9 +98,8 @@ class Scheduler extends Component {
     };
   }
 
-  updateSlotBookingPC= async(currentDate, currentPC)=>{
+  updateSlotBookingPC=(currentDate, currentPC)=>{
       // load resource and event data
-      debugger
       var splitArr;
       var splitDataDate=currentDate.split("/")
       var splitDay=splitDataDate[0];
@@ -108,18 +107,14 @@ class Scheduler extends Component {
       var splitYear=splitDataDate[2];
       var splitDate=splitYear+"-"+splitMonth+"-"+splitDay;
       let isAvailable=true;
-      await axios.get("http://localhost:3000/getTimeBooked?bookids="+currentDate+":::"+currentPC)
+      axios.get("http://localhost:3000/getTimeBooked?bookids="+currentDate+":::"+currentPC)
       .then((response) => {
           debugger
           console.log(response.data);
           splitArr = response.data.a.split(',');
           //this.initialBookedTime=splitArr;
           console.log(splitArr);
-          var currentSlot=(new Date()).getHours();
-          if(currentSlot<10){
-            currentSlot="0"+currentSlot;
-          }
-          debugger
+          var currentSlot=(new Date()).getHours().toString();
           var findSlot=splitArr.find((elem)=>{
             if(elem===currentSlot)
               return true;
@@ -205,9 +200,7 @@ class Scheduler extends Component {
         });
     },(error)=>{
       console.log(error);
-      that.setState({
-        currentPCSelected: currentPC
-      });
+      alert("There is no booking for this Computer")
       that.setState({
         resources: [
         {name: "Resource A", id: "A"}
@@ -364,7 +357,7 @@ class Scheduler extends Component {
                               <Col lg={4}>
                                 <Switch
                                   onChange={()=>{}}
-                                  checked={this.state.check4}
+                                  checked={false}
                                   id="normal-switch4"
                                 ></Switch>
                                  <div>
@@ -375,7 +368,7 @@ class Scheduler extends Component {
                               <Col lg={4}>
                                 <Switch
                                   onChange={()=>{}}
-                                  checked={this.state.check5}
+                                  checked={false}
                                   id="normal-switch5"
                                 ></Switch>
                                  <div>
@@ -386,7 +379,7 @@ class Scheduler extends Component {
                               <Col lg={4}>
                                 <Switch
                                   onChange={()=>{}}
-                                  checked={this.state.check6}
+                                  checked={false}
                                   id="normal-switch6"
                                 ></Switch>
                                 <div>
@@ -430,18 +423,14 @@ class Scheduler extends Component {
               }}
               width={350}
               height={250}
-              // selected={today}
+              selected={today}
               // disabledDays={[0,6]}
               // minDate={lastWeek}
-              onSelect={async(evt)=>{
+              onSelect={(evt)=>{
                 var evt2 = evt.toString().split(" ");
                 evt2.splice(4)
                 var evt1 = evt2.join(" ");
                 this.currentSelectedDate=this.convertDate(evt1)
-                await this.getBookedTimeSlot(this.currentSelectedDate,this.state.currentPCSelected);
-                for(var i=1; i<=6; i++){
-                  await this.updateSlotBookingPC(this.currentSelectedDate,"PC-"+i)
-                }
                 console.log(this.currentSelectedDate);
               }}
             />

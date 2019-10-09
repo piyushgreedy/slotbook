@@ -98,28 +98,24 @@ class Scheduler extends Component {
     };
   }
 
-  updateSlotBookingPC= async(currentDate, currentPC)=>{
+  updateSlotBookingPC=(currentDate, currentPC)=>{
       // load resource and event data
-      debugger
       var splitArr;
       var splitDataDate=currentDate.split("/")
       var splitDay=splitDataDate[0];
       var splitMonth=splitDataDate[1];
       var splitYear=splitDataDate[2];
       var splitDate=splitYear+"-"+splitMonth+"-"+splitDay;
-      let isAvailable=true;
-      await axios.get("http://localhost:3000/getTimeBooked?bookids="+currentDate+":::"+currentPC)
+    
+      axios.get("http://localhost:3000/getTimeBooked?bookids="+currentDate+":::"+currentPC)
       .then((response) => {
           debugger
           console.log(response.data);
+          let isAvailable
           splitArr = response.data.a.split(',');
           //this.initialBookedTime=splitArr;
           console.log(splitArr);
-          var currentSlot=(new Date()).getHours();
-          if(currentSlot<10){
-            currentSlot="0"+currentSlot;
-          }
-          debugger
+          var currentSlot=(new Date()).getHours().toString();
           var findSlot=splitArr.find((elem)=>{
             if(elem===currentSlot)
               return true;
@@ -127,43 +123,41 @@ class Scheduler extends Component {
           if(findSlot){
             isAvailable=false;
           }
+          switch(currentPC){
+            case "PC-1":
+              this.setState({
+                check1:isAvailable
+              })
+              break;
+            case "PC-2":
+              this.setState({
+                check2:isAvailable
+              })
+              break;
+            case "PC-3":
+              this.setState({
+                check3:isAvailable
+              })
+              break;
+            case "PC-4":
+              this.setState({
+                check4:isAvailable
+              })
+              break;
+            case "PC-5":
+              this.setState({
+                check5:isAvailable
+              })
+              break;
+            case "PC-6":
+              this.setState({
+                check6:isAvailable
+              })
+              break;
+          }
       },(error)=>{
-        isAvailable=true;
         console.log(error);
       });
-
-      switch(currentPC){
-        case "PC-1":
-          this.setState({
-            check1:isAvailable
-          })
-          break;
-        case "PC-2":
-          this.setState({
-            check2:isAvailable
-          })
-          break;
-        case "PC-3":
-          this.setState({
-            check3:isAvailable
-          })
-          break;
-        case "PC-4":
-          this.setState({
-            check4:isAvailable
-          })
-          break;
-        case "PC-5":
-          this.setState({
-            check5:isAvailable
-          })
-          break;
-        case "PC-6":
-          this.setState({
-            check6:isAvailable
-          })
-          break;
-      }
     }
 
 
@@ -205,9 +199,7 @@ class Scheduler extends Component {
         });
     },(error)=>{
       console.log(error);
-      that.setState({
-        currentPCSelected: currentPC
-      });
+      alert("There is no booking for this Computer")
       that.setState({
         resources: [
         {name: "Resource A", id: "A"}
@@ -218,6 +210,7 @@ class Scheduler extends Component {
   }
 
   async componentDidMount() {
+    alert(12)
     if(!localStorage.getItem("userId") && !localStorage.getItem("username")){
       this.props.history.push(`/login`);
     }
@@ -229,10 +222,7 @@ class Scheduler extends Component {
     
     await this.getBookedTimeSlot(this.convertDate(evt1),"PC-1")
 
-    for(var i=1; i<=6; i++){
-      await this.updateSlotBookingPC(this.convertDate(evt1),"PC-"+i)
-    }
-
+    alert(12)
     // this.setState({
     //   resources: [
     //     {name: "Resource A", id: "A"}
@@ -280,6 +270,7 @@ class Scheduler extends Component {
   }
 
   render() {
+    alert(32)
     var {...config} = this.state;
     var style = {
       background: 'blue',
@@ -326,7 +317,15 @@ class Scheduler extends Component {
                             <Row>
                               <Col lg={4}>
                                 <Switch
-                                  checked={this.state.check1}
+                                  onLoad={(event)=>{
+                                    alert(1);
+                                    console.log("swit");
+                                    console.log(event);
+                                  }}
+                                  onChange={()=>{
+                                    alert(1);
+                                  }}
+                                  checked={this.state.checked}
                                   id="normal-switch1"
                                 ></Switch>
                                 <div>
@@ -339,7 +338,7 @@ class Scheduler extends Component {
                               <Col lg={4}>
                                 <Switch
                                   onChange={()=>{}}
-                                  checked={this.state.check2}
+                                  checked={false}
                                   id="normal-switch2"
                                 ></Switch>
                                  <div>
@@ -350,7 +349,7 @@ class Scheduler extends Component {
                               <Col lg={4}>
                                 <Switch
                                   onChange={()=>{}}
-                                  checked={this.state.check3}
+                                  checked={false}
                                   id="normal-switch3"
                                 ></Switch>
                                  <div>
@@ -364,7 +363,7 @@ class Scheduler extends Component {
                               <Col lg={4}>
                                 <Switch
                                   onChange={()=>{}}
-                                  checked={this.state.check4}
+                                  checked={false}
                                   id="normal-switch4"
                                 ></Switch>
                                  <div>
@@ -375,7 +374,7 @@ class Scheduler extends Component {
                               <Col lg={4}>
                                 <Switch
                                   onChange={()=>{}}
-                                  checked={this.state.check5}
+                                  checked={false}
                                   id="normal-switch5"
                                 ></Switch>
                                  <div>
@@ -386,7 +385,7 @@ class Scheduler extends Component {
                               <Col lg={4}>
                                 <Switch
                                   onChange={()=>{}}
-                                  checked={this.state.check6}
+                                  checked={false}
                                   id="normal-switch6"
                                 ></Switch>
                                 <div>
@@ -430,18 +429,14 @@ class Scheduler extends Component {
               }}
               width={350}
               height={250}
-              // selected={today}
+              selected={today}
               // disabledDays={[0,6]}
               // minDate={lastWeek}
-              onSelect={async(evt)=>{
+              onSelect={(evt)=>{
                 var evt2 = evt.toString().split(" ");
                 evt2.splice(4)
                 var evt1 = evt2.join(" ");
                 this.currentSelectedDate=this.convertDate(evt1)
-                await this.getBookedTimeSlot(this.currentSelectedDate,this.state.currentPCSelected);
-                for(var i=1; i<=6; i++){
-                  await this.updateSlotBookingPC(this.currentSelectedDate,"PC-"+i)
-                }
                 console.log(this.currentSelectedDate);
               }}
             />
