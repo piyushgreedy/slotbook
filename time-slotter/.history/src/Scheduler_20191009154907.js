@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Abhaas, AbhaasScheduler} from "abhaas";
+import {DayPilot, DayPilotScheduler} from "";
 import './config'
 import { Button, FormGroup, FormControl, Form} from "react-bootstrap";
 import axios from 'axios';
@@ -38,11 +38,11 @@ class Scheduler extends Component {
       businessWeekends: true,
       days: 30,
       showNonBusiness: false,
-      startDate: Abhaas.Date.today(),
+      startDate: DayPilot.Date.today(),
       timeRangeSelectedHandling: "Enabled",
       onTimeRangeSelected: function (args) {
         var dp = this;
-        Abhaas.Modal.prompt("Create a new event:", "Event 1").then(function(modal) {
+        DayPilot.Modal.prompt("Create a new event:", "Event 1").then(function(modal) {
           dp.clearSelection();
           if (!modal.result) { return; }
 
@@ -64,10 +64,10 @@ class Scheduler extends Component {
           ref.finalBookedArray=ref.finalBookedArray.concat(stringArray);
           console.log(ref.finalBookedArray);
 
-          dp.events.add(new Abhaas.Event({
+          dp.events.add(new DayPilot.Event({
             start: args.start,
             end: args.end,
-            id: Abhaas.guid(),
+            id: DayPilot.guid(),
             resource: args.resource,
             text: modal.result
           }));
@@ -87,7 +87,7 @@ class Scheduler extends Component {
       },
       eventClickHandling: "enabled",
       eventHoverHandling: "Bubble",
-      bubble: new Abhaas.Bubble({
+      bubble: new DayPilot.Bubble({
         onLoad: function(args) {
           // if event object doesn't specify "bubbleHtml" property 
           // this onLoad handler will be called to provide the bubble HTML
@@ -453,7 +453,7 @@ class Scheduler extends Component {
           </Row>
         </Container>
 
-        <AbhaasScheduler style={{marginTop:"60px"}}
+        <DayPilotScheduler style={{marginTop:"60px"}}
           {...config}
           ref={component => {
             this.scheduler = component && component.control;

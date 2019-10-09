@@ -1,6 +1,7 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import AvailableTimes from 'react-available-times';
 import Scheduler from './Scheduler'
 import Login from './Login'
 import 'bootstrap/dist/css/bootstrap.min.css';

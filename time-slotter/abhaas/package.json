@@ -1,0 +1,47 @@
+{
+  "_args": [
+    [
+      "daypilot-pro-react@https://npm.daypilot.org/daypilot-pro-react/trial/2019.3.4000.tar.gz",
+      "/Users/Piyush/Desktop/abhaas/time-slotter"
+    ]
+  ],
+  "_from": "daypilot-pro-react@https://npm.daypilot.org/daypilot-pro-react/trial/2019.3.4000.tar.gz",
+  "_id": "daypilot-pro-react@https://npm.daypilot.org/daypilot-pro-react/trial/2019.3.4000.tar.gz",
+  "_inBundle": false,
+  "_integrity": "sha512-uiOCqDE5CXQUp54JPg3lBnyClWqs+vYPnhJD4K3zrqEGvFJBcLL7XzAQXVSBVZzUo+5JbHuF3DA8wf2HK76seg==",
+  "_location": "/daypilot-pro-react",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "remote",
+    "raw": "daypilot-pro-react@https://npm.daypilot.org/daypilot-pro-react/trial/2019.3.4000.tar.gz",
+    "name": "daypilot-pro-react",
+    "escapedName": "daypilot-pro-react",
+    "rawSpec": "https://npm.daypilot.org/daypilot-pro-react/trial/2019.3.4000.tar.gz",
+    "saveSpec": "https://npm.daypilot.org/daypilot-pro-react/trial/2019.3.4000.tar.gz",
+    "fetchSpec": "https://npm.daypilot.org/daypilot-pro-react/trial/2019.3.4000.tar.gz"
+  },
+  "_requiredBy": [
+    "/"
+  ],
+  "_resolved": false,
+  "_spec": "https://npm.daypilot.org/daypilot-pro-react/trial/2019.3.4000.tar.gz",
+  "_where": "/Users/Piyush/Desktop/abhaas/time-slotter",
+  "author": {
+    "name": "Annpoint, s.r.o."
+  },
+  "dependencies": {
+    "create-react-class": ">=15.0.0",
+    "react": ">=16.0.0",
+    "react-dom": ">=16.0.0"
+  },
+  "description": "DayPilot Pro for JavaScript (React)",
+  "files": [
+    "daypilot-react.min.js"
+  ],
+  "license": "SEE LICENSE IN LicenseAgreement.pdf",
+  "main": "daypilot-react.min.js",
+  "name": "abhaas-calendar",
+  "private": true,
+  "typings": "daypilot-react.min.d.ts",
+  "version": "2019.3.4000"
+}
