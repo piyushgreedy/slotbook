@@ -9,7 +9,7 @@ export default class NavBar extends Component {
     }
     render() {
       return (
-        <div>
+        <div className="border-nav">
             <Navbar bg="light" expand="lg">
                 <Navbar.Brand href="#home">
                     <img style={{width:"100px"}} src={logo}></img>
@@ -18,8 +18,8 @@ export default class NavBar extends Component {
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="mr-auto">
                     <Nav.Link href="/timeslot">Home</Nav.Link>
-                    <Nav.Link href="/">Login</Nav.Link>
-                    <Nav.Link href="/signup">Sign Up</Nav.Link>
+                    <Nav.Link className="hidem" href="/">Login</Nav.Link>
+                    <Nav.Link className="hidem" href="/signup">Sign Up</Nav.Link>
                     </Nav>
                 </Navbar.Collapse>
 

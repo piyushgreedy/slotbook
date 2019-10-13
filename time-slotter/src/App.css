@@ -34,13 +34,14 @@
 }
 
 .schedule-time{
-  margin-top: 50px !important;
+  /* margin-top: 50px !important; */
   text-align: center;
 }
 
+
+
 .book-time-slot{
-  margin-top: 60px;
-  width: 400px;
+  width: 300px;
 }
 
 .scheduler_default_main{
@@ -49,14 +50,60 @@
 
 .book-time-selection{
   margin-top: 10px;
-  width: 400px;
+  width: 200px;
 }
 
 .myContainer{
   max-width: 100% !important;
-  margin-top: 50px;
 }
 
 .hideElement{
   display: none !important
+}
+
+.borderValue{
+  border-right: 1px solid black;
+  background: lightgreen;
+}
+
+.border-nav{
+  border: 1px solid black;
+  background: #282c34;
+}
+
+.button-log{
+  position: absolute;
+  right: 2%;
+  top: 2.5%;
+}
+
+.button-log-left{
+  position: absolute;
+  top: 2.5%;
+  right: 8%;
+}
+
+.welcomeText{
+  position: absolute;
+  top: 3.5%;
+  right: 8%;
+}
+
+.fullContainer{
+  height: 1600px;
+  background: beige;
+}
+
+/* .scheduler_default_main{
+  display: none !important;
+} */
+
+.drop-down{
+  position: absolute;
+  top:34.5%;
+  left: 28%;
+}
+
+.abhaas-scheduler{
+
 }
