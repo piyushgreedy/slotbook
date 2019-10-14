@@ -233,7 +233,7 @@ class Scheduler extends Component {
             eventArray.push(eventObj);
         }  
         that.setState({
-            resources: [{name: currentPC, id: "A"}, {name: "PC-2", id: "B"}, {name: "PC-3", id: "C"}, {name: "PC-4", id: "D"}],
+            resources: [{name: currentPC, id: "A"}, {name: currentPC, id: "A"}],
             events: eventArray,
             currentPCSelected: currentPC
         });
@@ -243,7 +243,9 @@ class Scheduler extends Component {
         currentPCSelected: currentPC
       });
       that.setState({
-        resources: [{name: currentPC, id: "A"}, {name: "PC-2", id: "B"}, {name: "PC-3", id: "C"}, {name: "PC-4", id: "D"}],
+        resources: [
+        {name: currentPC, id: "A"}
+        ],
         events: eventArray
     });
     });
@@ -333,50 +335,44 @@ class Scheduler extends Component {
 
     return (
       <div className="schedule-time">
-
-        <div className="button-log">
-          <DropdownButton id="dropdown-basic-button"  title={localStorage.getItem("username")}>
-            <Dropdown.Item onClick={()=>{
-              alert("Log Out");
-              localStorage.removeItem("userId");
-              localStorage.removeItem("username");
-              this.props.history.push("/");
-              window.location.reload();
-            }} href="#/action-1">Log Out</Dropdown.Item>
-          </DropdownButton>
-        </div>
       
+        <span className="welcomeText">WELCOME - {localStorage.getItem("username")}</span>
+        {/* <Button className="button-log-left" onClick={()=>{
+        }} variant="danger"> </Button>
+         */}
+        <Button variant="success" className="button-log" onClick={()=>{
+          alert("Log Out");
+          localStorage.removeItem("userId");
+          localStorage.removeItem("username");
+          this.props.history.push("/");
+          window.location.reload();
+        }} > Log Out </Button>
         
         <Tab.Container id="left-tabs-example" defaultActiveKey="first">
             <Row className="fullContainer">
-              <Col className="" lg={2} sm={2} style={{paddingTop:"40px",float:"right"}}>
+
+              <Col className="borderValue" sm={1} style={{paddingTop:"40px"}}>
                 <Nav variant="pills" className="flex-column">
                   <Nav.Item>
-                    <Nav.Link className="textLeft" eventKey="first">Strem Player</Nav.Link>
+                    <Nav.Link eventKey="first">Strem 1</Nav.Link>
                   </Nav.Item>
                   <Nav.Item>
-                    <Nav.Link className="textLeft" eventKey="second">Strem Capture</Nav.Link>
+                    <Nav.Link eventKey="second">Strem 2</Nav.Link>
                   </Nav.Item>
                   <Nav.Item>
-                    <Nav.Link className="textLeft" eventKey="third">Strem Analyzer</Nav.Link>
-                  </Nav.Item>
-                  <Nav.Item>
-                    <Nav.Link className="textLeft" eventKey="fourth">Strem Storager</Nav.Link>
-                  </Nav.Item>
-                  <Nav.Item>
-                    <Nav.Link className="textLeft" eventKey="fifth">Strem Rack Info</Nav.Link>
+                    <Nav.Link eventKey="third">Strem 3</Nav.Link>
                   </Nav.Item>
                 </Nav>
               </Col>
 
-              <Col lg={10} sm={10} style={{paddingTop:"40px"}}>
+              <Col sm={10}>
                 <Row>
-                  <Col xl={4} sm={4}>
-                    <Tab.Content className="borderValue" style={{height:"100%"}}>
+                  <Col xl={7} sm={7} style={{paddingTop:"40px"}}>
+                    <Tab.Content>
                       <Tab.Pane eventKey="first">
                         <Container>
-                          <Row style={{paddingTop:"15px"}}>
-                            <Col lg={4}>
+                          <Row>
+                            <Col lg={3}>
                               <Switch
                                 checked={this.state.check1}
                                 id="normal-switch1"
@@ -392,7 +388,7 @@ class Scheduler extends Component {
                               {this.state.check1 ? <a target="_blank" href="./rdp.bat" target="_blank">Remote Connection</a> : <div>Remote Connection</div>}
                               </div>
                               </Col>
-                            <Col lg={4}>
+                            <Col lg={3}>
                               <Switch
                                 onChange={()=>{}}
                                 checked={this.state.check2}
@@ -407,7 +403,7 @@ class Scheduler extends Component {
                               </div>
                               {this.state.check2 ? <a target="_blank" href="./rdp.bat" target="_blank">Remote Connection</a> : <div>Remote Connection</div>}
                             </Col>
-                            <Col lg={4}>
+                            <Col lg={3}>
                               <Switch
                                 onChange={()=>{}}
                                 checked={this.state.check3}
@@ -422,7 +418,7 @@ class Scheduler extends Component {
                               </div>
                               {this.state.check3 ? <a target="_blank" href="./rdp.bat" target="_blank">Remote Connection</a> : <div>Remote Connection</div>}
                             </Col>
-                            <Col lg={4} style={{paddingTop:"15px"}}>
+                            <Col lg={3}>
                               <Switch
                                 onChange={()=>{}}
                                 checked={this.state.check4}
@@ -442,7 +438,7 @@ class Scheduler extends Component {
                       </Tab.Pane>
                       <Tab.Pane eventKey="second">
                       <Container>
-                          <Row style={{paddingTop:"15px"}}>
+                          <Row>
                             <Col lg={3}>
                               <Switch
                                 onChange={()=>{}}
@@ -463,7 +459,7 @@ class Scheduler extends Component {
                       </Tab.Pane>
                       <Tab.Pane eventKey="third">
                         <Container>
-                            <Row style={{paddingTop:"15px"}}>
+                            <Row>
                               <Col lg={3}>
                                 <Switch
                                   onChange={()=>{}}
@@ -484,45 +480,39 @@ class Scheduler extends Component {
                       </Tab.Pane>
                     </Tab.Content>
                   </Col>
-
-                  <Col xl={4} sm={4} style={{marginLeft:"-10px"}}>
-                    {/* <div style={{marginLeft:"190px"}}>{this.state.pcvalue}</div> */}
-                    <img className="borderValue" style={{height:"300px", width:"100%", padding:"10px"}} src={"./"+this.state.pcvalue+".jpeg"}></img>
-                  </Col>
-
-                  <Col xl={4} sm={4} style={{marginLeft:"-10px"}}>
-                    {/* <div style={{marginLeft:"190px"}}>{this.state.pcvalue}</div> */}
-                    <img className="borderValue" style={{height:"300px", width:"100%", padding:"10px"}} src={"./"+this.state.pcvalue+".jpeg"}></img>
+                  <Col xl={5} sm={5} style={{paddingTop:"10px"}}>
+                    <div style={{marginLeft:"190px"}}>{this.state.pcvalue}</div>
+                    <img style={{height:"250px", width:"350px", background:"purple", float:"right"}} src={"./"+this.state.pcvalue+".jpeg"}></img>
                   </Col>
                 </Row>
 
-                <Row className="borderValue" style={{marginTop:"80px", marginLeft:"0px", padding:"10px", marginRight:"15px"}}>
-                  
+                <Row style={{marginTop:"80px", marginLeft:"15px"}}>
                   <Col xl={3} sm={3}>
-                    <InfiniteCalendar style={{paddingTop:"60px"}}
-                        displayOptions={{
-                          showOverlay: false,
-                          shouldHeaderAnimate: false
-                        }}
-                        width={350}
-                        height={210}
-                        // selected={today}
-                        // disabledDays={[0,6]}
-                        // minDate={lastWeek}
-                        onSelect={async(evt)=>{
-                          var evt2 = evt.toString().split(" ");
-                          evt2.splice(4)
-                          var evt1 = evt2.join(" ");
-                          this.currentSelectedDate=this.convertDate(evt1)
+                  <InfiniteCalendar style={{paddingTop:"60px"}}
+                      displayOptions={{
+                        showOverlay: false,
+                        shouldHeaderAnimate: false
+                      }}
+                      width={350}
+                      height={210}
+                      // selected={today}
+                      // disabledDays={[0,6]}
+                      // minDate={lastWeek}
+                      onSelect={async(evt)=>{
+                        var evt2 = evt.toString().split(" ");
+                        evt2.splice(4)
+                        var evt1 = evt2.join(" ");
+                        this.currentSelectedDate=this.convertDate(evt1)
 
-                          for(var i=1; i<=6; i++){
-                            await this.updateSlotBookingPC(this.currentSelectedDate,"PC-"+i)
-                          }
-                          await this.getBookedTimeSlot(this.currentSelectedDate,this.state.currentPCSelected);
-                          console.log(this.currentSelectedDate);
-                        }}
-                    />
+                        for(var i=1; i<=6; i++){
+                          await this.updateSlotBookingPC(this.currentSelectedDate,"PC-"+i)
+                        }
+                        await this.getBookedTimeSlot(this.currentSelectedDate,this.state.currentPCSelected);
+                        console.log(this.currentSelectedDate);
+                      }}
+                  />
                   </Col>
+
                   
                   <Col xl={9} sm={9} style={{width:"100%"}}>
                         <Row>
@@ -548,11 +538,9 @@ class Scheduler extends Component {
                           <Col xl={1} sm={1}>
                           </Col>
                         </Row>
-
                         <Row>
                           <Col xl={1} sm={1}>
                           </Col>
-
                           <Col xl={11} sm={11}>
                             <AbhaasScheduler className="abhaas-scheduler" 
                               {...config}
@@ -562,7 +550,6 @@ class Scheduler extends Component {
                             />
                           </Col>
                         </Row>
-
                         <Row style={{marginTop:"30px"}}>
                         
                         </Row>

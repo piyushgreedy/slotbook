@@ -97,8 +97,7 @@ app.get('/getTimeBookedUser', (req, res) => {
   var cDate=totalObj[0];
   var cPC=totalObj[1];
   var id=totalObj[2];
-
-  var selectQuery="SELECT * FROM slot_booking where `datebooked`='"+cDate+"' AND `pcbooked`='"+cPC+"' AND `userId`='"+id+"'";
+  var selectQuery="SELECT * FROM slot_booking where `userId`='"+id+"' AND `datebooked`='"+cDate+"'";
   // var selectQuery="SELECT * FROM slot_booking where `datebooked`='"+cDate+"' AND `pcbooked`='"+cPC+"'";
   console.log(selectQuery)
   con.query(selectQuery, function (err, result, fields) {

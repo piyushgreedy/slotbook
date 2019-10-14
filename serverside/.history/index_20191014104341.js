@@ -75,9 +75,7 @@ app.get('/getUsage', (req, res) => {
   var totalObj=req.query.bookids.split(":::");
   var pcName=totalObj[0];
   var cDate=totalObj[1];
-  var id=totalObj[2];
-  var selectQuery="SELECT * FROM slot_booking where `datebooked`='"+cDate+"' AND `pcbooked`='"+pcName+"' AND `userId`='"+id+"'";
-
+  var selectQuery="SELECT * FROM slot_booking where `datebooked`='"+cDate+"' AND `pcbooked`='"+pcName+"'";
   console.log(selectQuery)
   con.query(selectQuery, function (err, result, fields) {
     if (err) throw err;
@@ -89,42 +87,6 @@ app.get('/getUsage', (req, res) => {
     }
   });
 })
-
-app.get('/getTimeBookedUser', (req, res) => {
-  //Select all customers and return the result object:
-  console.log(req.query);
-  var totalObj=req.query.bookids.split(":::");
-  var cDate=totalObj[0];
-  var cPC=totalObj[1];
-  var id=totalObj[2];
-
-  var selectQuery="SELECT * FROM slot_booking where `datebooked`='"+cDate+"' AND `pcbooked`='"+cPC+"' AND `userId`='"+id+"'";
-  // var selectQuery="SELECT * FROM slot_booking where `datebooked`='"+cDate+"' AND `pcbooked`='"+cPC+"'";
-  console.log(selectQuery)
-  con.query(selectQuery, function (err, result, fields) {
-    if (err) throw err;
-    console.log(result.length);
-    if(result.length>0){
-      var timeBooked="";
-      for(var i=0;i<result.length;i++){
-        console.log(result[i]["timebooked"]);
-        if(i!=result.length-1)
-          timeBooked=timeBooked+result[i]["timebooked"]+',';
-        else
-          timeBooked=timeBooked+result[i]["timebooked"];
-      }
-      // console.log(result[0]["userID"]);
-      res.setHeader('Content-Type', 'application/json');
-      res.end(JSON.stringify({ a: timeBooked, statusCode:200}));
-    }else{
-       // console.log(result[0]["userID"]);
-       res.status(400);
-       res.setHeader('Content-Type', 'application/json');
-       res.end(JSON.stringify({ a: "1", statusCode:500}));
-    }
-  });
-})
-
 
 app.get('/getTimeBooked', (req, res) => {
       //Select all customers and return the result object:

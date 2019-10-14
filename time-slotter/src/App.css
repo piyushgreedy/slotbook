@@ -49,8 +49,7 @@
 }
 
 .book-time-selection{
-  margin-top: 10px;
-  width: 200px;
+  
 }
 
 .myContainer{
@@ -62,8 +61,7 @@
 }
 
 .borderValue{
-  border-right: 1px solid black;
-  background: lightgreen;
+  border: 1px solid black !important;
 }
 
 .border-nav{
@@ -73,7 +71,7 @@
 
 .button-log{
   position: absolute;
-  right: 2%;
+  right: 5%;
   top: 2.5%;
 }
 
@@ -90,7 +88,6 @@
 }
 
 .fullContainer{
-  height: 1600px;
   background: beige;
 }
 
@@ -107,3 +104,17 @@
 .abhaas-scheduler{
 
 }
+
+.navbar-light .navbar-nav .nav-link{
+  color: white!important;
+}
+
+.navbar.bg-light{
+  background-color: steelblue !important;
+}
+
+.textLeft{
+  text-align: left;
+}
+
+body{width:100%;}
