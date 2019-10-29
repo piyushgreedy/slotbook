@@ -24,7 +24,9 @@ class Scheduler extends Component {
     super(props);
     this.initialBookedTime=null;
     this.finalBookedArray=[];
+    this.eventArray=[];
     var ref=this;
+
     this.state = {
       pcvalue:"pc1",
       check1:false,
@@ -40,18 +42,20 @@ class Scheduler extends Component {
       crosshairType: "Disabled",
       timeHeaders: [{"groupBy":"Day"},{"groupBy":"Hour"}],
       scale: "Hour",
-      businessEndsHour: 21,
+      businessBeginsHour: 0,
+      businessEndsHour: 23,
       businessWeekends: true,
       days: 1,
       showNonBusiness: false,
-      startDate: "2019-10-13",
+      startDate: "2019-10-29",
       timeRangeSelectedHandling: "Enabled",
+      deleteDisabled:true,
       onTimeRangeSelected: function (args) {
         var dp = this;
-        Abhaas.Modal.prompt("Create a new event:", "Event 1").then(function(modal) {
+        Abhaas.Modal.prompt("New Time Slot Booking", "I am Booking this Time Slot").then(function(modal) {
           dp.clearSelection();
           if (!modal.result) { return; }
-
+          debugger
           console.log(args.start.toString());
           console.log(args.end.toString());
 
@@ -77,6 +81,8 @@ class Scheduler extends Component {
             resource: args.resource,
             text: modal.result
           }));
+
+          ref.bookTimeSlot(ref.currentPCSelected,ref.currentSelectedDate);
         });
       },
       eventMoveHandling: "Update",
@@ -87,17 +93,13 @@ class Scheduler extends Component {
       onEventResized: function (args) {
         this.message("Event resized: " + args.e.text());
       },
-      eventDeleteHandling: "Update",
-      onEventDeleted: function (args) {
-        this.message("Event deleted: " + args.e.text());
-      },
       eventClickHandling: "enabled",
       eventHoverHandling: "Bubble",
       bubble: new Abhaas.Bubble({
         onLoad: function(args) {
           // if event object doesn't specify "bubbleHtml" property 
           // this onLoad handler will be called to provide the bubble HTML
-          args.html = "Event details";
+          args.html = "I am Booked";
         }
       }),
       rowHeaderHideIconEnabled: true,
@@ -122,8 +124,10 @@ class Scheduler extends Component {
           splitArr = response.data.a.split(',');
           //this.initialBookedTime=splitArr;
           console.log(splitArr);
+          debugger
           var currentSlot=(new Date()).getHours().toString();
-          if(currentSlot<10){
+
+          if(currentSlot < 10){
             currentSlot="0"+currentSlot;
           }
           debugger
@@ -183,7 +187,6 @@ class Scheduler extends Component {
 
   getBookedTimeSlotUser= (currentDate,currentPC)=>{
     // load resource and event data
-   let eventArray=[]
    var splitArr;
    var that=this; 
    var splitDataDate=currentDate.split("/")
@@ -203,7 +206,6 @@ class Scheduler extends Component {
 
   getBookedTimeSlot=(currentDate,currentPC)=>{
      // load resource and event data
-    let eventArray=[]
     var splitArr;
     var that=this; 
     var splitDataDate=currentDate.split("/")
@@ -211,42 +213,58 @@ class Scheduler extends Component {
     var splitMonth=splitDataDate[1];
     var splitYear=splitDataDate[2];
     var splitDate=splitYear+"-"+splitMonth+"-"+splitDay;
+
+    return new Promise((resolve,reject)=>{
+      axios.get("http://localhost:3000/getTimeBooked?bookids="+currentDate+":::"+currentPC)
+      .then((response) => {
+          debugger
+          console.log(currentPC)
+          // console.log(response.data);
+          splitArr = response.data.a.split(',');
+          // this.initialBookedTime=splitArr;
+          // console.log(splitArr);
+          for(var i=0;i< splitArr.length;i++){
+             
+              // console.log(splitArr[i]);
   
-    axios.get("http://localhost:3000/getTimeBooked?bookids="+currentDate+":::"+currentPC)
-    .then((response) => {
-        debugger
-        console.log(response.data);
-        splitArr = response.data.a.split(',');
-        // this.initialBookedTime=splitArr;
-        console.log(splitArr);
-        for(var i=0;i< splitArr.length;i++){
-            console.log(splitArr[i]);
-            console.log(splitDate+"T"+splitArr[i] +":00:00")
-            console.log(splitDate+"T"+(parseInt(splitArr[i])+1).toString() +":00:00")
-            var eventObj={
+              // console.log(splitDate+"T"+splitArr[i] +":00:00")
+              // console.log(splitDate+"T"+(parseInt(splitArr[i])+1).toString() +":00:00")
+              let incValue=(parseInt(splitArr[i])+1)
+              let startIndex=splitArr[i];
+              if(incValue < 10){
+                incValue="0"+incValue
+              }
+              if(splitArr[i].length < 2){
+                startIndex = "0"+startIndex;
+              }
+  
+              var eventObj={
                 id: Math.floor(Math.random() * 1000000000000),
                 text: "I am Booked",
-                start: splitDate+"T"+splitArr[i] +":00:00",
-                end: splitDate+"T"+(parseInt(splitArr[i])+1).toString() +":00:00",
-                resource: "A"
-            }
-            eventArray.push(eventObj);
-        }  
-        that.setState({
-            resources: [{name: currentPC, id: "A"}, {name: "PC-2", id: "B"}, {name: "PC-3", id: "C"}, {name: "PC-4", id: "D"}],
-            events: eventArray,
-            currentPCSelected: currentPC
-        });
-    },(error)=>{
-      console.log(error);
-      that.setState({
-        currentPCSelected: currentPC
+                start: splitDate+"T"+startIndex.toString()+":00:00",
+                end: splitDate+"T"+ incValue +":00:00",
+                resource: currentPC
+              }
+              
+              this.eventArray.push(eventObj);
+          }  
+          resolve("success");
+        //   var eventObj={
+        //     id: Math.floor(Math.random() * 1000000000000),
+        //     text: "I am Booked",
+        //     start: "2019-10-29T08:00:00",
+        //     end: "2019-10-29T11:00:00",
+  
+        //     // "start": "2019-10-29T08:00:00",
+        //     // "end": "2019-10-29T11:00:00",
+        //     resource: "A"
+        //   }
+        // eventArray.push(eventObj);
+      },(error)=>{
+        resolve("failure");
       });
-      that.setState({
-        resources: [{name: currentPC, id: "A"}, {name: "PC-2", id: "B"}, {name: "PC-3", id: "C"}, {name: "PC-4", id: "D"}],
-        events: eventArray
-    });
-    });
+    })
+
   }
 
   async componentDidMount() {
@@ -259,9 +277,16 @@ class Scheduler extends Component {
     this.currentSelectedDate=this.convertDate(evt1)
     this.currentPCSelected="#PC-1"
     
-    await this.getBookedTimeSlot(this.convertDate(evt1),"PC-1")
+    for(var i=1; i<=4; i++){
+      await this.getBookedTimeSlot(this.convertDate(evt1),"PC-"+i)
+    }
+    
+    this.setState({
+      resources: [{name: "PC-1", id: "PC-1"}, {name: "PC-2", id: "PC-2"}, {name: "PC-3", id: "PC-3"}, {name: "PC-4", id: "PC-4"}],
+      events: this.eventArray
+    });
 
-    // await this.getBookedTimeSlotUser(this.convertDate(evt1),"PC-1")
+    // await this.getBookedTimeSlot(this.convertDate(evt1),"PC-1")
 
     for(var i=1; i<=6; i++){
       await this.updateSlotBookingPC(this.convertDate(evt1),"PC-"+i)
@@ -321,6 +346,7 @@ class Scheduler extends Component {
       { label: "PC-1", value: "#PC-1" },
       { label: "PC-2", value: "#PC-2" },
       { label: "PC-3", value: "#PC-3" },
+      { label: "PC-4", value: "#PC-4" },
     ];
     var {...config} = this.state;
     var style = {
@@ -515,10 +541,21 @@ class Scheduler extends Component {
                           var evt1 = evt2.join(" ");
                           this.currentSelectedDate=this.convertDate(evt1)
 
+                          this.eventArray=[];
+                          debugger
+                          for(var i=1; i<=4; i++){
+                            await this.getBookedTimeSlot(this.currentSelectedDate, "PC-"+i);
+                          }
+
+                          this.setState({
+                            resources: [{name: "PC-1", id: "PC-1"}, {name: "PC-2", id: "PC-2"}, {name: "PC-3", id: "PC-3"}, {name: "PC-4", id: "PC-4"}],
+                            events: this.eventArray
+                          });
+
                           for(var i=1; i<=6; i++){
                             await this.updateSlotBookingPC(this.currentSelectedDate,"PC-"+i)
                           }
-                          await this.getBookedTimeSlot(this.currentSelectedDate,this.state.currentPCSelected);
+                      
                           console.log(this.currentSelectedDate);
                         }}
                     />
@@ -540,10 +577,10 @@ class Scheduler extends Component {
                           </Col>
                           
                           <Col xl={3} sm={3}>
-                            <Button className="book-time-slot" onClick={()=>{
+                            {/* <Button className="book-time-slot" onClick={()=>{
                                 debugger
                                 this.bookTimeSlot(this.currentPCSelected,this.currentSelectedDate);
-                            }}>Book My TimeSlot</Button> 
+                            }}>Book My TimeSlot</Button>  */}
                           </Col>
                           <Col xl={1} sm={1}>
                           </Col>

@@ -2,6 +2,18 @@
   text-align: center;
 }
 
+/* .scheduler_default_event_delete{
+  display: none;
+} */
+
+.scheduler_default_event_bar_inner{
+  background-color: red !important
+}
+
+.scheduler_default_event_inner{
+  background: orange !important
+}
+
 .App-logo {
   height: 40vmin;
 }
