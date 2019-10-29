@@ -51,6 +51,11 @@ class Scheduler extends Component {
       timeRangeSelectedHandling: "Enabled",
       deleteDisabled:true,
       onTimeRangeSelected: function (args) {
+        if("#"+args.resource!=ref.currentPCSelected){
+          alert("Wrong PC Selected");
+          return;
+        }
+
         var dp = this;
         Abhaas.Modal.prompt("New Time Slot Booking", "I am Booking this Time Slot").then(function(modal) {
           dp.clearSelection();
