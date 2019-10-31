@@ -1,0 +1,33 @@
+{
+  "_args": [
+    [
+      "/Users/Piyush/Desktop/abhaas/time-slotter"
+    ]
+  ],
+  "_inBundle": false,
+  "_location": "/daypilot-pro-react",
+  "_phantomChildren": {},
+  "_requiredBy": [
+    "/"
+  ],
+  "_resolved": false,
+  "_where": "/Users/Piyush/Desktop/abhaas/time-slotter",
+  "author": {
+    "name": "Annpoint, s.r.o."
+  },
+  "dependencies": {
+    "create-react-class": ">=15.0.0",
+    "react": ">=16.0.0",
+    "react-dom": ">=16.0.0"
+  },
+  "description": "DayPilot Pro for JavaScript (React)",
+  "files": [
+    "daypilot-react.min.js"
+  ],
+  "license": "SEE LICENSE IN LicenseAgreement.pdf",
+  "main": "daypilot-react.min.js",
+  "name": "abhaas-calendar",
+  "private": true,
+  "typings": "daypilot-react.min.d.ts",
+  "version": "2019.3.4000"
+}

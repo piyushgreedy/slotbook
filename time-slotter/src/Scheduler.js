@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import Select from 'react-select';
 
-import {Abhaas, AbhaasScheduler} from "abhaas";
+import {Abhaas, AbhaasScheduler} from "abhaas"
 import './config'
 import './schedule.css'
 import { Button, FormGroup, FormControl, Form} from "react-bootstrap";
@@ -51,10 +51,9 @@ class Scheduler extends Component {
       timeRangeSelectedHandling: "Enabled",
       deleteDisabled:true,
       onTimeRangeSelected: function (args) {
-        if("#"+args.resource!=ref.currentPCSelected){
-          alert("Wrong PC Selected");
-          return;
-        }
+
+        ref.currentPCSelected="#"+args.resource;
+        
 
         var dp = this;
         Abhaas.Modal.prompt("New Time Slot Booking", "I am Booking this Time Slot").then(function(modal) {
@@ -548,12 +547,12 @@ class Scheduler extends Component {
 
                           this.eventArray=[];
                           debugger
-                          for(var i=1; i<=4; i++){
+                          for(var i=1; i<=6; i++){
                             await this.getBookedTimeSlot(this.currentSelectedDate, "PC-"+i);
                           }
 
                           this.setState({
-                            resources: [{name: "PC-1", id: "PC-1"}, {name: "PC-2", id: "PC-2"}, {name: "PC-3", id: "PC-3"}, {name: "PC-4", id: "PC-4"}],
+                            resources: [{name: "PC-1", id: "PC-1"}, {name: "PC-2", id: "PC-2"}, {name: "PC-3", id: "PC-3"}, {name: "PC-4", id: "PC-4"},{name: "PC-5", id: "PC-5"},{name: "PC-6", id: "PC-6"}],
                             events: this.eventArray
                           });
 

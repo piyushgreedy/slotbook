@@ -1,1 +1,0 @@
-bash remote.sh
