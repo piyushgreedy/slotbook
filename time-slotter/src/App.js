@@ -6,6 +6,7 @@ import Login from './Login'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import NavBar from './Navbar'
 import Signup from './Signup'
+import Boarding from './Boarding'
 
 
 import {
@@ -22,6 +23,7 @@ function App() {
         <Route exact={true} path="/login" component={Login} />
         <Route exact={true} path="/timeslot"  component={Scheduler} />
         <Route exact={true} path="/signup" component={Signup} />
+        <Route exact={true} path="/boarding" component={Boarding} />
       </Router>
     </div>
   );

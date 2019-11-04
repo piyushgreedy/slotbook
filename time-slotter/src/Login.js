@@ -18,6 +18,8 @@ class Login extends Component {
     validateForm() {
       return this.state.email.length > 0 && this.state.password.length > 0;
     }
+
+    
   
     handleChange = event => {
       this.setState({
@@ -33,6 +35,7 @@ class Login extends Component {
             debugger
               localStorage.setItem('userId', response.data.a);
               localStorage.setItem('username', response.data.b);
+              localStorage.setItem('role', response.data.c);
               alert("SIGN IN DONE SUCCESSFULLY");
               this.props.history.push(`/timeslot`)
           },(error)=>{

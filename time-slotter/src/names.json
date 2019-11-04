@@ -1,0 +1,25 @@
+{
+    "names":[
+        {
+            "id":1,
+            "name":"Airtel",
+            "portvalue": "403",
+            "funcValue": "ok"
+        },
+        {
+            "id":2,
+            "value":"Vodafone",
+            "portvalue": "403",
+            "funcValue": "ok"
+        },
+        {
+            "id":3,
+            "value":"Idea",
+            "portvalue": "403",
+            "funcValue": "ok"
+        }
+    ]
+}
+
+
+  

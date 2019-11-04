@@ -5,3 +5,7 @@
 .infinite-calendar{
     margin-top: 10px;
 }
+
+.Cal__Container__root{
+    width: 100% !important
+}

@@ -41,7 +41,7 @@ app.get('/userSignIn', (req, res) => {
     if (err) throw err;
     res.setHeader('Content-Type', 'application/json');
     if(result.length>0){
-      res.end(JSON.stringify({ a: result[0].userID, b:result[0].username, statusCode:200}));
+      res.end(JSON.stringify({ a: result[0].userID, b:result[0].username, c:result[0].role, statusCode:200}));
     }
     else{
       res.status(400);
@@ -56,7 +56,8 @@ app.get('/userSignUp', (req, res) => {
       var totalObj=req.query.bookids.split(":::");
       var username=totalObj[0];
       var password=totalObj[1];
-      var sqlQuery = 'INSERT INTO slot_login (`username`,`password`) VALUES ("'+username.toString()+'","'+password.toString()+'")'
+      var role=totalObj[2];
+      var sqlQuery = 'INSERT INTO slot_login (`username`,`password`,`role`) VALUES ("'+username.toString()+'","'+password.toString()+'","'+role.toString()+'")'
       console.log(sqlQuery)
       con.query(sqlQuery, function (err, result, fields) {
         if (err){
@@ -87,6 +88,39 @@ app.get('/getUsage', (req, res) => {
     }else{
       res.end(JSON.stringify({ inUse: true, statusCode:200}));
     }
+  });
+})
+
+app.get('/getNameSlots', (req, res) => {
+  //Select all customers and return the result object:
+  var selectQuery="SELECT * FROM port_booking where `functionName`='1'";
+  console.log(selectQuery)
+  con.query(selectQuery, function (err, result, fields) {
+    if (err) throw err;
+    res.setHeader('Content-Type', 'application/json');
+    if(result.length>0){
+      res.status(200);
+      res.setHeader('Content-Type', 'application/json');
+      res.end(JSON.stringify({ names: result[0].functionValue, statusCode:200}));
+    }else{
+      res.status(400);
+      res.end(JSON.stringify({ inUse: true, statusCode:400}));
+    }
+  });
+})
+
+app.get('/updateNameSlots', (req, res) => {
+  //Select all customers and return the result object:
+  var totalObj=req.query.bookids.split(":::");
+  var id=totalObj[0];
+  var sqlQuery = "UPDATE port_booking set functionValue='"+id.toString() +"' WHERE functionName=1"
+  con.query(sqlQuery, function (err, result, fields) {
+    if (err){
+      console.log(err);
+      throw err;
+    }
+    res.setHeader('Content-Type', 'application/json');
+    res.end(JSON.stringify({ a: "updatedSuccessFully", statusCode:200}));
   });
 })
 

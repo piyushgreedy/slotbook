@@ -17,7 +17,28 @@ import { async } from 'q';
 var shell = require('shelljs');
 var execSh = require("exec-sh");
 
-
+let namessonn={
+  "names":[
+      {
+          "id":1,
+          "name":"Airtel",
+          "portvalue": "403",
+          "funcValue": "ok"
+      },
+      {
+          "id":2,
+          "value":"Vodafone",
+          "portvalue": "403",
+          "funcValue": "ok"
+      },
+      {
+          "id":3,
+          "value":"Idea",
+          "portvalue": "403",
+          "funcValue": "ok"
+      }
+  ]
+}
 
 class Scheduler extends Component {
   constructor(props) {
@@ -28,6 +49,7 @@ class Scheduler extends Component {
     var ref=this;
 
     this.state = {
+      isStreamRack:true,
       pcvalue:"pc1",
       check1:false,
       check2:false,
@@ -43,7 +65,7 @@ class Scheduler extends Component {
       timeHeaders: [{"groupBy":"Day"},{"groupBy":"Hour"}],
       scale: "Hour",
       businessBeginsHour: 0,
-      businessEndsHour: 23,
+      businessEndsHour: 24,
       businessWeekends: true,
       days: 1,
       showNonBusiness: false,
@@ -75,6 +97,12 @@ class Scheduler extends Component {
             stringArray.push(i.toString());
           }
           console.log(stringArray);
+
+          if(endI=="-1"){
+            stringArray.push(23)
+          }
+
+
           ref.finalBookedArray=ref.finalBookedArray.concat(stringArray);
           console.log(ref.finalBookedArray);
 
@@ -316,7 +344,9 @@ class Scheduler extends Component {
   }
 
   componentDidUpdate(){
-    document.getElementsByClassName("scheduler_default_corner")[0].children[1].innerText="CRAL LAB"
+    try{
+      document.getElementsByClassName("scheduler_default_corner")[0].children[1].innerText="CRAL LAB"
+    }catch(e){}
   }
 
   bookTimeSlot = (currentPC,currentDate)=>{
@@ -364,17 +394,19 @@ class Scheduler extends Component {
     return (
       <div className="schedule-time">
 
-        <div className="button-log">
-          <DropdownButton id="dropdown-basic-button"  title={localStorage.getItem("username")}>
-            <Dropdown.Item onClick={()=>{
-              alert("Log Out");
-              localStorage.removeItem("userId");
-              localStorage.removeItem("username");
-              this.props.history.push("/");
-              window.location.reload();
-            }} href="#/action-1">Log Out</Dropdown.Item>
-          </DropdownButton>
-        </div>
+        {this.state.isStreamRack && 
+         <div className="button-log">
+         <DropdownButton id="dropdown-basic-button"  title={localStorage.getItem("username")}>
+           <Dropdown.Item onClick={()=>{
+             alert("Log Out");
+             localStorage.removeItem("userId");
+             localStorage.removeItem("username");
+             this.props.history.push("/");
+             window.location.reload();
+           }} href="#/action-1">Log Out</Dropdown.Item>
+         </DropdownButton>
+       </div>}
+       
       
         
         <Tab.Container id="left-tabs-example" defaultActiveKey="first">
@@ -382,20 +414,48 @@ class Scheduler extends Component {
               <Col className="" lg={2} sm={2} style={{paddingTop:"40px",float:"right"}}>
                 <Nav variant="pills" className="flex-column">
                   <Nav.Item>
-                    <Nav.Link className="textLeft" eventKey="first">Strem Player</Nav.Link>
+                    <Nav.Link className="textLeft" onClick={()=>{
+                      this.setState({
+                        isStreamRack:true
+                      })
+                    }} eventKey="first">Strem Player</Nav.Link>
                   </Nav.Item>
                   <Nav.Item>
-                    <Nav.Link className="textLeft" eventKey="second">Strem Capture</Nav.Link>
+                    <Nav.Link className="textLeft" onClick={()=>{
+                      this.setState({
+                        isStreamRack:true
+                      })
+                    }} eventKey="second">Strem Capture</Nav.Link>
                   </Nav.Item>
                   <Nav.Item>
-                    <Nav.Link className="textLeft" eventKey="third">Strem Analyzer</Nav.Link>
+                    <Nav.Link className="textLeft" onClick={()=>{
+                      this.setState({
+                        isStreamRack:true
+                      })
+                    }} eventKey="third">Strem Analyzer</Nav.Link>
                   </Nav.Item>
                   <Nav.Item>
-                    <Nav.Link className="textLeft" eventKey="fourth">Strem Storager</Nav.Link>
+                    <Nav.Link className="textLeft" onClick={()=>{
+                      this.setState({
+                        isStreamRack:true
+                      })
+                    }} eventKey="fourth">Strem Storager</Nav.Link>
                   </Nav.Item>
+
                   <Nav.Item>
-                    <Nav.Link className="textLeft" eventKey="fifth">Strem Rack Info</Nav.Link>
+                    <Nav.Link  className="textLeft" onClick={()=>{
+                      // this.setState({
+                      //   isStreamRack:false
+                      // })
+                      if(localStorage.getItem("role")=="lab"){
+                        this.props.history.push("boarding");
+                      }else{
+                        alert("Access Denied");
+                      }
+                      
+                    }} eventKey="fifth">Strem Rack Info</Nav.Link>
                   </Nav.Item>
+                 
                 </Nav>
               </Col>
 
@@ -512,6 +572,13 @@ class Scheduler extends Component {
                             </Row>
                           </Container>
                       </Tab.Pane>
+                      <Tab.Pane eventKey="fifth">
+                        <Container>
+                            <Row style={{paddingTop:"15px"}}>
+                                
+                            </Row>
+                          </Container>
+                      </Tab.Pane>
                     </Tab.Content>
                   </Col>
 
@@ -526,15 +593,15 @@ class Scheduler extends Component {
                   </Col>
                 </Row>
 
+            
                 <Row className="borderValue" style={{marginTop:"80px", marginLeft:"0px", padding:"10px", marginRight:"15px"}}>
-                  
-                  <Col xl={3} sm={3}>
+                <Col xl={4} sm={4}>
                     <InfiniteCalendar style={{paddingTop:"60px"}}
                         displayOptions={{
                           showOverlay: false,
                           shouldHeaderAnimate: false
                         }}
-                        width={350}
+                        // width={350}
                         height={210}
                         // selected={today}
                         // disabledDays={[0,6]}
@@ -565,78 +632,40 @@ class Scheduler extends Component {
                     />
                   </Col>
                   
-                  <Col xl={9} sm={9} style={{width:"100%"}}>
-                        <Row>
-                          <Col xl={1} sm={1}>
-                          </Col>
-                          <Col xl={3} sm={3}>
-                            <Select defaultValue={pcCompanies[0]} options={ pcCompanies } onChange={async(event)=>{
-                              console.log(event);
-                              this.currentPCSelected=event.value;
-                              console.log(this.currentPCSelected);
-                              debugger
-                              await this.getBookedTimeSlot(this.currentSelectedDate,event.value.substr(1))
-                            }}/>
-                            <span className="book-time-selection">PC Selected: {this.state.currentPCSelected ? this.state.currentPCSelected: "None"}</span>  
-                          </Col>
-                          
-                          <Col xl={3} sm={3}>
-                            {/* <Button className="book-time-slot" onClick={()=>{
-                                debugger
-                                this.bookTimeSlot(this.currentPCSelected,this.currentSelectedDate);
-                            }}>Book My TimeSlot</Button>  */}
-                          </Col>
-                          <Col xl={1} sm={1}>
-                          </Col>
-                        </Row>
-
-                        <Row>
-                          <Col xl={1} sm={1}>
-                          </Col>
-
-                          <Col xl={11} sm={11}>
-                            <AbhaasScheduler className="abhaas-scheduler" 
-                              {...config}
-                              ref={component => {
-                                this.scheduler = component && component.control;
-                              }}
-                            />
-                          </Col>
-                        </Row>
-
-                        <Row style={{marginTop:"30px"}}>
+                  <Col xl={8} sm={8}>
+                       
+                       
+                    <AbhaasScheduler className="abhaas-scheduler" 
+                      {...config}
+                      ref={component => {
+                        this.scheduler = component && component.control;
+                      }}
+                    />
                         
-                        </Row>
+                  
                   </Col>
+                       
+
 
                 </Row>
+
               </Col>
             </Row>
           </Tab.Container>
 
-
-
-
-
-
-
-
-
-
-          {/* <div className="drop-down">
-            <DropdownButton id="dropdown-basic-button" variant="success" onSelect={async(evt)=>{
-                        this.currentPCSelected=evt;
-                        console.log(this.currentPCSelected);
-                        debugger
-                        await this.getBookedTimeSlot(this.currentSelectedDate,evt.substr(1))
+          {/* <div className="drop-down"> */}
+            {/* <DropdownButton id="dropdown-basic-button" variant="success" onSelect={async(evt)=>{
+                        // this.currentPCSelected=evt;
+                        // console.log(this.currentPCSelected);
+                        // debugger
+                        // await this.getBookedTimeSlot(this.currentSelectedDate,evt.substr(1))
 
                       }} title="Select Computer Category">
                         <Dropdown.Item href="#PC-1">PC-1</Dropdown.Item>
                         <Dropdown.Item href="#PC-2">PC-2</Dropdown.Item>
                         <Dropdown.Item href="#PC-3">PC-3</Dropdown.Item>
-            </DropdownButton>
-                            
-          </div> */}
+            </DropdownButton>               */}
+          {/* </div> */}
     
       </div>
     );

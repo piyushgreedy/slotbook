@@ -11,7 +11,8 @@ class Signup extends Component {
   
       this.state = {
         email: "",
-        password: ""
+        password: "",
+        myrole:"lab"
       };
     }
   
@@ -20,6 +21,7 @@ class Signup extends Component {
     }
   
     handleChange = event => {
+      debugger
       this.setState({
         [event.target.id]: event.target.value
       });
@@ -27,8 +29,9 @@ class Signup extends Component {
   
     handleSubmit = event => {
       event.preventDefault();  
+      debugger
       if(this.state.email && this.state.password){
-        axios.get("http://localhost:3000/userSignUp?bookids="+this.state.email+":::"+this.state.password)
+        axios.get("http://localhost:3000/userSignUp?bookids="+this.state.email+":::"+this.state.password+":::"+this.state.myrole)
           .then((response) => {
               alert("SIGN UP DONE SUCCESSFULLY!"+"Please do Sign In");
               localStorage.setItem('userId', response.data.a);
@@ -64,6 +67,15 @@ class Signup extends Component {
                 type="password"
               />
             </FormGroup>
+
+            <Form.Group controlId="myrole">
+              <Form.Label>Select Role</Form.Label>
+              <Form.Control as="select" onChange={this.handleChange}>
+                <option>lab</option>
+                <option>employee</option>
+              </Form.Control>
+            </Form.Group>
+
             <Button
               block
               bsSize="large"
