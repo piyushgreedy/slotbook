@@ -363,7 +363,7 @@ class Scheduler extends Component {
           alert("Time Slot Already Booked For this Interval");
         }else{
           alert("Time Slot Succesfull Booked");
-          window.location.reload();
+          // window.location.reload();
         }
     });
   }
