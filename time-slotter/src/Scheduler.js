@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import Select from 'react-select';
-
 import {Abhaas, AbhaasScheduler} from "abhaas"
 import './config'
 import './schedule.css'
@@ -73,10 +72,7 @@ class Scheduler extends Component {
       timeRangeSelectedHandling: "Enabled",
       deleteDisabled:true,
       onTimeRangeSelected: function (args) {
-
         ref.currentPCSelected="#"+args.resource;
-        
-
         var dp = this;
         Abhaas.Modal.prompt("New Time Slot Booking", "I am Booking this Time Slot").then(function(modal) {
           dp.clearSelection();
@@ -86,7 +82,6 @@ class Scheduler extends Component {
           console.log(args.end.toString());
 
           var stringArray=[];
-
           var startI=(args.start.toString()).split("T")[1].split(":")[0];
           var endI=parseInt((args.end.toString()).split("T")[1].split(":")[0])-1
 
@@ -101,7 +96,6 @@ class Scheduler extends Component {
           if(endI=="-1"){
             stringArray.push(23)
           }
-
 
           ref.finalBookedArray=ref.finalBookedArray.concat(stringArray);
           console.log(ref.finalBookedArray);
@@ -346,6 +340,7 @@ class Scheduler extends Component {
   componentDidUpdate(){
     try{
       document.getElementsByClassName("scheduler_default_corner")[0].children[1].innerText="CRAL LAB"
+      document.getElementsByClassName("scheduler_default_corner")[0].children[1].classList.add("mystyle");
     }catch(e){}
   }
 

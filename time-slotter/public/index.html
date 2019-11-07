@@ -23,6 +23,9 @@
     
     <style type="text/css">
       .hidden { display:none !important }
+      .mystyle{
+        background-color: #007bff !important
+      }
     </style>
     
     <!--
@@ -41,6 +44,7 @@
     <script>
       setTimeout(()=>{
         document.getElementsByClassName("scheduler_default_corner")[0].children[1].innerText="CRAL LAB"
+        document.getElementsByClassName("scheduler_default_corner")[0].children[1].classList.add("mystyle");
       },1300);
     </script>
     <div id="root"></div>

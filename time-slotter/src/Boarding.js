@@ -7,20 +7,74 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { Row, Col, ListGroup } from 'react-bootstrap';
 import {Tab,Nav, Dropdown, DropdownButton, ToggleButton} from 'react-bootstrap'
 import Avatar from 'react-toolbox/lib/avatar';
+import Select from 'react-select';
+import { ExportToCsv } from 'export-to-csv';
+
+const options = [
+    { value: 'none', label: 'None' },
+    { value: 'Name 1', label: 'Name 1' },
+    { value: 'Name 2', label: 'Name 2' },
+    { value: 'Name 3', label: 'Name 3' },
+    { value: 'Name 4', label: 'Name 4' },
+    { value: 'Name 5', label: 'Name 5' },
+    { value: 'Name 6', label: 'Name 6' },
+    { value: 'Name 7', label: 'Name 7' },
+    { value: 'Name 8', label: 'Name 8' },
+    { value: 'Name 9', label: 'Name 9' }
+];
+
+var data = [
+    {
+      name: 'Test 1',
+      age: 13,
+      average: 8.2,
+      approved: true,
+      description: "using 'Content here, content here' "
+    },
+    {
+      name: 'Test 2',
+      age: 11,
+      average: 8.2,
+      approved: true,
+      description: "using 'Content here, content here' "
+    },
+    {
+      name: 'Test 4',
+      age: 10,
+      average: 8.2,
+      approved: true,
+      description: "using 'Content here, content here' "
+    },
+  ];
+
+const csvOptions = { 
+    fieldSeparator: ',',
+    quoteStrings: '"',
+    decimalSeparator: '.',
+    showLabels: true, 
+    showTitle: true,
+    title: 'My Awesome CSV',
+    useTextFile: false,
+    useBom: true,
+    useKeysAsHeaders: true,
+    // headers: ['Column 1', 'Column 2', etc...] <-- Won't work with useKeysAsHeaders present!
+  };
 
 let initialData = {
     "names": [
-        {"id": 1, "name": "Airtel", "funcValue": "Piyush Aggarwal", "portvalue": "403"}, 
-        {"id": 2, "name": "Vodafone", "funcValue": "Abhaas Aggarwal", "portvalue": "403"}, 
-        {"id": 3, "name": "Provider 1", "funcValue": "Abhinav Aggarwal", "portvalue": "403"},
-        {"id": 4, "name": "Provider 2", "funcValue": "Abhinav Aggarwal", "portvalue": "403"},
-        {"id": 5, "name": "Provider 3", "funcValue": "Abhinav Aggarwal", "portvalue": "403"},
-        {"id": 6, "name": "Provider 4", "funcValue": "Abhinav Aggarwal", "portvalue": "403"},
-        {"id": 7, "name": "Provider 5", "funcValue": "Abhinav Aggarwal", "portvalue": "403"}
-    ]}
+        {"id": 1, "name": "Airtel", "funcValue": "none", "portvalue": "403"}, 
+        {"id": 2, "name": "Vodafone", "funcValue": "none", "portvalue": "403"}, 
+        {"id": 3, "name": "Provider 1", "funcValue": "none", "portvalue": "403"},
+        {"id": 4, "name": "Provider 2", "funcValue": "none", "portvalue": "403"},
+        {"id": 5, "name": "Provider 3", "funcValue": "none", "portvalue": "403"},
+        {"id": 6, "name": "Provider 4", "funcValue": "none", "portvalue": "403"},
+        {"id": 7, "name": "Provider 5", "funcValue": "none", "portvalue": "403"},
+        {"id": 8, "name": "Provider 7", "funcValue": "none", "portvalue": "403"},
+        {"id": 9, "name": "Provider 8", "funcValue": "none", "portvalue": "403"}
+]}
 
-const namesData=["Piyush Aggarwal","Abhaas Aggarwal","Abhinav Aggarwal","Sunita Aggarwal","Bhavya Aggarwal","Nimesh Johri","Gaurav Tyagi"];
-const portNumber=["403","200","100","560","120","282","328"]
+const namesData=["none","none","none","none","none","none","none","none","none"];
+const portNumber=["403","200","100","560","120","282","328","2312","123"]
 
 const GithubIcon = () => (
     <svg viewBox="0 0 284 277">
@@ -30,7 +84,6 @@ const GithubIcon = () => (
 const getListStyle = isDraggingOver => ({
     background: isDraggingOver ? "lightblue" : "lightgrey",
     padding: grid,
-  
 });
 
 const grid = 8;
@@ -117,10 +170,14 @@ class Boarding extends Component {
         });
     }
 
+    handleChange = (selectedOption)=>{
+       console.log(selectedOption);
+    }
+
     updateItemsData = ()=>{
         let updatedAllData={...this.state}
         let itemsData=updatedAllData.items;
-        let namesNewData=updatedAllData.namesData;
+        let namesNewData=this.nArray;
         let portAllData=updatedAllData.portNumber;
         console.log(this.state.namesData);
         let newItemsData=itemsData.names.map((elem,pos)=>{
@@ -148,7 +205,7 @@ class Boarding extends Component {
             console.log("droppableOnne");
         }
 
-        if(result.destination.droppableId=="droppableTwo"){
+        if(result.destination.droppableId=="droppableTwoa"){
             let namesData=this.state.namesData;
             let startIndex=result.source.index;
             let destinationIndex=result.destination.index;
@@ -172,11 +229,11 @@ class Boarding extends Component {
                 portNumber:portNewArray
             })
         }
+
         setTimeout(()=>{
             this.updateItemsData();
         },500);
         
-    
         // const items = reorder(
         //   this.state.items,
         //   result.source.index,
@@ -190,7 +247,8 @@ class Boarding extends Component {
 
     render() {
         return (
-            <Row> 
+            <div>
+                  <Row> 
                 <Col xs={3}>
                     <Button style={{width:"70%",marginTop:"20px",marginBottom:"20px",marginLeft:"2px"}} variant="success">Providers</Button>
                     <DragDropContext style={{margin:"10px"}} onDragEnd={this.onDragEnd}>
@@ -300,7 +358,36 @@ class Boarding extends Component {
                                                     )}
                                                 >
                                                 <span>
-                                                {item}
+                                                {/* {item} */}
+                                                <Select
+                                                    id={"select-"+index}
+                                                    value={{ value: item, label: item }}
+                                                    // onChange={(selectedOption)=>{
+                                                    //     // this.nArray=[];
+                                                    //     // for(var i=0;i<9 ; i++){
+                                                    //     //     let a =document.getElementById("select-"+i).getElementsByClassName("css-1uccc91-singleValue")[0].innerText;
+                                                    //     //     this.nArray.push(a);
+                                                    //     // }
+                                                    //     // console.log(this.nArray);
+                                                    //     // this.setState({
+                                                    //     //     namesData:nArray
+                                                    //     // })
+                                                        
+                                                    //     // let namesData=this.state.namesData;
+                                                    //     // namesData[index]=selectedOption;
+                                                    //     // this.setState({
+                                                    //     //     namesData:namesData
+                                                    //     // })
+                                                        
+
+                                                    //     // setTimeout(()=>{
+                                                    //     //     this.updateItemsData();
+                                                    //     //     // window.location.reload()
+                                                    //     // },1000)
+                                                        
+                                                    // }}
+                                                    options={options}
+                                                />
                                                 </span> 
                                                </div>
                                             )}
@@ -341,6 +428,20 @@ class Boarding extends Component {
                     </DragDropContext>
                 </Col>
             </Row>
+                <Row style={{alignItems:"center"}}>
+                    <Col xs={4}></Col> 
+                    <Col xs={4}>
+                        <Button style={{width:"100%",marginTop:"20px",marginBottom:"20px"}} variant="success" onClick={()=>{
+                            const csvExporter = new ExportToCsv(options);
+                            console.log(this.state.items.names);
+                            csvExporter.generateCsv(this.state.items.names);
+                        }}>
+                            Export To CSV
+                        </Button>
+                    </Col>                                          
+                    <Col xs={4}></Col>            
+                </Row>
+            </div>
         )
     }
 
