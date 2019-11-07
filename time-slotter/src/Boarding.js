@@ -177,7 +177,7 @@ class Boarding extends Component {
     updateItemsData = ()=>{
         let updatedAllData={...this.state}
         let itemsData=updatedAllData.items;
-        let namesNewData=this.nArray;
+        let namesNewData=updatedAllData.namesData;
         let portAllData=updatedAllData.portNumber;
         console.log(this.state.namesData);
         let newItemsData=itemsData.names.map((elem,pos)=>{
@@ -346,7 +346,7 @@ class Boarding extends Component {
                             {(provided, snapshot)=>(
                                 <div {...provided.droppableProps} ref={provided.innerRef} style={getListStyle(snapshot.isDraggingOver)}>
                                     {this.state.namesData.map((item, index) => (
-                                        <Draggable key={item} draggableId={item} index={index}>
+                                        <Draggable key={index} draggableId={index} index={index}>
                                             {(provided, snapshot) => (
                                                 <div
                                                 ref={provided.innerRef}
@@ -362,30 +362,29 @@ class Boarding extends Component {
                                                 <Select
                                                     id={"select-"+index}
                                                     value={{ value: item, label: item }}
-                                                    // onChange={(selectedOption)=>{
-                                                    //     // this.nArray=[];
-                                                    //     // for(var i=0;i<9 ; i++){
-                                                    //     //     let a =document.getElementById("select-"+i).getElementsByClassName("css-1uccc91-singleValue")[0].innerText;
-                                                    //     //     this.nArray.push(a);
-                                                    //     // }
-                                                    //     // console.log(this.nArray);
-                                                    //     // this.setState({
-                                                    //     //     namesData:nArray
-                                                    //     // })
+                                                    onChange={(selectedOption)=>{
+                                                        // this.nArray=[];
+                                                        // for(var i=0;i<9 ; i++){
+                                                        //     let a =document.getElementById("select-"+i).getElementsByClassName("css-1uccc91-singleValue")[0].innerText;
+                                                        //     this.nArray.push(a);
+                                                        // }
+                                                        // console.log(this.nArray);
+                                                        // this.setState({
+                                                        //     namesData:nArray
+                                                        // })
                                                         
-                                                    //     // let namesData=this.state.namesData;
-                                                    //     // namesData[index]=selectedOption;
-                                                    //     // this.setState({
-                                                    //     //     namesData:namesData
-                                                    //     // })
+                                                        let namesData=this.state.namesData;
+                                                        namesData[index]=selectedOption.value;
+                                                        this.setState({
+                                                            namesData:namesData
+                                                        })
                                                         
-
-                                                    //     // setTimeout(()=>{
-                                                    //     //     this.updateItemsData();
-                                                    //     //     // window.location.reload()
-                                                    //     // },1000)
+                                                        setTimeout(()=>{
+                                                            this.updateItemsData();
+                                                            // window.location.reload();
+                                                        },1000)
                                                         
-                                                    // }}
+                                                    }}
                                                     options={options}
                                                 />
                                                 </span> 
