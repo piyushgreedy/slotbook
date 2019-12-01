@@ -150,12 +150,16 @@ class Boarding extends Component {
     }
 
     componentDidMount=()=>{
+        if(!localStorage.getItem("userId") && !localStorage.getItem("username")){
+            this.props.history.push(`/login`);
+        }
         axios.get("http://localhost:3000/getNameSlots")
         .then((response) => {
             // console.log(response.data.names);
             let responseData=JSON.parse(response.data.names);
 
             let newNamesArray=responseData.names.map((elem,position)=>{
+                initialData.names[position].funcValue=elem["funcValue"];
                 return elem["funcValue"]
             })
             let newPortArray=responseData.names.map((elem,position)=>{
@@ -164,10 +168,12 @@ class Boarding extends Component {
                 
             this.setState({
                 items : initialData,
-                namesData: newNamesArray,
-                portNumber: newPortArray
+                namesData: newNamesArray
             })
         });
+
+        document.getElementsByClassName("hidem")[0].classList.add("hideme");
+        document.getElementsByClassName("hidem")[1].classList.add("hideme")
     }
 
     handleChange = (selectedOption)=>{
@@ -178,13 +184,17 @@ class Boarding extends Component {
         let updatedAllData={...this.state}
         let itemsData=updatedAllData.items;
         let namesNewData=updatedAllData.namesData;
-        let portAllData=updatedAllData.portNumber;
+        // let portAllData=updatedAllData.portNumber;
+
+
         console.log(this.state.namesData);
+
         let newItemsData=itemsData.names.map((elem,pos)=>{
             elem["funcValue"]=namesNewData[pos];
-            elem["portvalue"]=portAllData[pos];
+            // elem["portvalue"]=portAllData[pos];
             return elem;
         })
+
         itemsData["names"]=newItemsData;
         console.log(itemsData);
 
