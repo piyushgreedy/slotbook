@@ -5,7 +5,7 @@
   "dependencies": {
     "@lourenci/react-kanban": "^0.14.0",
     "abhaas": "./abhaas",
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "bootstrap": "^4.3.1",
     "classnames": "^2.2.6",
     "node-rdp": "^1.0.1",
